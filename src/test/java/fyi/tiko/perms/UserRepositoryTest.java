@@ -1,9 +1,10 @@
-package fyi.tiko.perms.user.repository;
+package fyi.tiko.perms;
 
 import static org.junit.Assert.*;
 
 import fyi.tiko.perms.database.DataSourceTest;
 import fyi.tiko.perms.database.MockedLogger;
+import fyi.tiko.perms.user.repository.UserRepository;
 import java.util.Collections;
 import java.util.UUID;
 import org.junit.Test;
