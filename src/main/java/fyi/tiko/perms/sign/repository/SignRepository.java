@@ -1,12 +1,13 @@
 package fyi.tiko.perms.sign.repository;
 
-import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.database.holder.DataHolder;
 import fyi.tiko.perms.sign.PermissionSign;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -18,16 +19,18 @@ import org.bukkit.Location;
 public class SignRepository extends DataHolder {
 
     /**
-     * Constructs a new {@link DataHolder} with the given {@link PermissionPlugin} and {@link DataSource}.
+     * Constructs a new {@link DataHolder} with the given {@link Logger} and {@link DataSource}.
      *
-     * @param plugin the plugin using this holder
+     * @param logger the logger of the plugin using this holder
+     * @param source the data source to use
      */
-    public SignRepository(PermissionPlugin plugin) {
-        super(plugin);
+    public SignRepository(Logger logger, DataSource source) {
+        super(logger, source);
     }
 
     /**
      * Deletes the given sign from the database.
+     *
      * @param sign The sign to delete.
      */
     public void deleteSign(PermissionSign sign) {
@@ -41,6 +44,7 @@ public class SignRepository extends DataHolder {
 
     /**
      * Adds a sign to the database.
+     *
      * @param location The location of the sign.
      */
     public void addSign(Location location) {
@@ -58,6 +62,7 @@ public class SignRepository extends DataHolder {
 
     /**
      * Saves the given sign to the database.
+     *
      * @param sign The sign to save.
      */
     public void saveSign(PermissionSign sign) {
@@ -67,6 +72,7 @@ public class SignRepository extends DataHolder {
 
     /**
      * Gets the sign at the given location.
+     *
      * @param location The location of the sign.
      * @return The sign at the given location.
      */
@@ -76,6 +82,7 @@ public class SignRepository extends DataHolder {
 
     /**
      * Gets all signs from the database.
+     *
      * @return All signs from the database.
      */
     public Set<PermissionSign> allSigns() {

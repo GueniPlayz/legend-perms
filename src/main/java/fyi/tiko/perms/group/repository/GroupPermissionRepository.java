@@ -1,6 +1,6 @@
 package fyi.tiko.perms.group.repository;
 
-import fyi.tiko.perms.PermissionPlugin;
+import fyi.tiko.perms.database.repository.PermissionRepository;
 import fyi.tiko.perms.database.holder.DataHolder;
 import fyi.tiko.perms.group.PermissionGroup;
 import fyi.tiko.perms.user.permission.PermissionUser;
@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  * The repository for database operations on the group tables.
@@ -17,13 +19,20 @@ import java.util.logging.Level;
  */
 public class GroupPermissionRepository extends DataHolder {
 
+    private final PermissionRepository permissionRepository;
+    private final Set<PermissionGroup> cachedGroups;
+
     /**
-     * Constructs a new {@link DataHolder} with the given {@link PermissionPlugin} and {@link DataSource}.
+     * Constructs a new {@link DataHolder} with the given {@link Logger} and {@link DataSource}.
      *
-     * @param plugin the plugin using this holder
+     * @param logger the logger of the plugin using this holder
+     * @param source the data source to use
      */
-    public GroupPermissionRepository(PermissionPlugin plugin) {
-        super(plugin);
+    public GroupPermissionRepository(Logger logger, DataSource source, Set<PermissionGroup> cachedGroups) {
+        super(logger, source);
+
+        this.cachedGroups = cachedGroups;
+        permissionRepository = new PermissionRepository(logger, source);
     }
 
     /**
@@ -81,7 +90,9 @@ public class GroupPermissionRepository extends DataHolder {
             logger().log(Level.WARNING, "Failed to save group", exception);
         }
 
-        group.permissions().forEach(perm -> addPermission(group.name(), perm));
+        if (group.permissions() != null) {
+            group.permissions().forEach(perm -> addPermission(group.name(), perm));
+        }
     }
 
     /**
@@ -137,7 +148,7 @@ public class GroupPermissionRepository extends DataHolder {
      * @param name the name of the group to remove
      */
     public void removeGroup(String name) {
-        plugin().groups().removeIf(group -> group.name().equalsIgnoreCase(name));
+        cachedGroups.removeIf(group -> group.name().equalsIgnoreCase(name));
 
         try (var conn = conn(); var stmt = conn.prepareStatement("DELETE FROM player_groups WHERE group_name=?;")) {
             stmt.setString(1, name);
@@ -185,7 +196,7 @@ public class GroupPermissionRepository extends DataHolder {
      * @param permission The permission to add.
      */
     public void addPermission(String groupName, String permission) {
-        plugin().permissionRepository().addPermission(permission);
+        permissionRepository.addPermission(permission);
 
         if (!exists(groupName)) {
             return;

@@ -1,5 +1,6 @@
 package fyi.tiko.perms.database;
 
+import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.sql.DataSource;
@@ -21,15 +22,15 @@ public class DatabaseSetup {
     /**
      * Reads the dbsetup.sql file from the resources folder and executes the given queries.
      *
-     * @param plugin the plugin instance to obtain the logger and the database connection from
+     * @param logger the logger to log to
      */
-    public static void executeQueries(JavaPlugin plugin, DataSource source) {
+    public static void executeQueries(Logger logger, DataSource source) {
         String setup = null;
 
         try (var inputStream = DatabaseSetup.class.getClassLoader().getResourceAsStream("dbsetup.sql")) {
             setup = new String(inputStream.readAllBytes());
         } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "§cCould not read dbsetup.sql file.", e);
+            logger.log(Level.SEVERE, "§cCould not read dbsetup.sql file.", e);
         }
         var queries = setup.split(";");
 
@@ -40,12 +41,12 @@ public class DatabaseSetup {
                     continue;
                 }
                 try (var stmt = conn.prepareStatement(query)) {
-                    plugin.getLogger().info("Executing query: " + query);
+                    logger.info("Executing query: " + query);
                     stmt.execute();
                 }
                 conn.commit();
             }
-            plugin.getLogger().info("Database setup complete.");
+            logger.info("Database setup complete.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

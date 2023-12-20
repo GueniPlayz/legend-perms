@@ -12,27 +12,18 @@ import java.sql.SQLException;
  * <a href="https://github.com/rainbowdashlabs/sql-util/blob/master/src/main/java/de/chojo/sqlutil/base/DataHolder.java">...</a>
  */
 public class DataHolder {
-
-    private final PermissionPlugin plugin;
+    private final Logger logger;
     private final DataSource source;
 
     /**
-     * Constructs a new {@link DataHolder} with the given {@link PermissionPlugin} and {@link DataSource}.
+     * Constructs a new {@link DataHolder} with the given {@link Logger} and {@link DataSource}.
      *
-     * @param plugin the plugin using this holder
+     * @param logger     the logger of the plugin using this holder
+     * @param dataSource the data source to use
      */
-    public DataHolder(PermissionPlugin plugin) {
-        this.plugin = plugin;
-        this.source = plugin.databaseProvider().dataSource();
-    }
-
-    /**
-     * The plugin that uses this holder.
-     *
-     * @return the plugin that uses this holder
-     */
-    protected PermissionPlugin plugin() {
-        return plugin;
+    public DataHolder(Logger logger, DataSource dataSource) {
+        this.logger = logger;
+        this.source = dataSource;
     }
 
     /**
@@ -41,7 +32,7 @@ public class DataHolder {
      * @return the logger of the plugin that uses this holder
      */
     protected Logger logger() {
-        return plugin.getLogger();
+        return logger;
     }
 
     /**

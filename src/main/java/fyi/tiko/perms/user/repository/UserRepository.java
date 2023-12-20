@@ -1,8 +1,9 @@
 package fyi.tiko.perms.user.repository;
 
-import fyi.tiko.perms.PermissionPlugin;
+import fyi.tiko.perms.database.repository.PermissionRepository;
 import fyi.tiko.perms.database.holder.DataHolder;
 import fyi.tiko.perms.group.PermissionGroup;
+import fyi.tiko.perms.group.repository.GroupPermissionRepository;
 import fyi.tiko.perms.user.permission.PermissionUser;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -12,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  * Used to save and load {@link PermissionUser}s from the database and also managing the permissions and groups of the user.
@@ -20,13 +23,20 @@ import java.util.logging.Level;
  */
 public class UserRepository extends DataHolder {
 
+    private final PermissionRepository permissionRepository;
+    private final GroupPermissionRepository groupRepository;
+
     /**
-     * Constructs a new {@link DataHolder} with the given {@link PermissionPlugin} and {@link DataSource}.
+     * Constructs a new {@link DataHolder} with the given {@link Logger} and {@link DataSource}.
      *
-     * @param plugin the plugin using this holder
+     * @param logger The logger of the plugin using this holder.
+     * @param source The data source to use.
      */
-    public UserRepository(PermissionPlugin plugin) {
-        super(plugin);
+    public UserRepository(Logger logger, DataSource source, Set<PermissionGroup> groups) {
+        super(logger, source);
+
+        groupRepository = new GroupPermissionRepository(logger, source, groups);
+        permissionRepository = new PermissionRepository(logger, source);
     }
 
     /**
@@ -47,6 +57,21 @@ public class UserRepository extends DataHolder {
             logger().log(Level.WARNING, "Failed to get user by uuid", exception);
         }
         return null;
+    }
+
+    /**
+     * Adds the given user to the database.
+     *
+     * @param uuid The uuid of the user.
+     */
+    public void addUser(UUID uuid, String name) {
+        try (var conn = conn(); var stmt = conn.prepareStatement("INSERT INTO perm_players(uuid, name) VALUES (?, ?)")) {
+            stmt.setString(1, uuid.toString());
+            stmt.setString(2, name);
+            stmt.executeUpdate();
+        } catch (SQLException exception) {
+            logger().log(Level.WARNING, "Failed to add user", exception);
+        }
     }
 
     /**
@@ -124,7 +149,7 @@ public class UserRepository extends DataHolder {
      * @param until The time until the group is valid.
      */
     public void addGroup(UUID uuid, String group, long until) {
-        if (!plugin().groupRepository().exists(group)) {
+        if (!groupRepository.exists(group)) {
             return;
         }
 
@@ -152,7 +177,7 @@ public class UserRepository extends DataHolder {
             var resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
-                var group = plugin().groupRepository().byName(resultSet.getString("group_name"));
+                var group = groupRepository.byName(resultSet.getString("group_name"));
                 var until = resultSet.getLong("group_until");
 
                 if (group != null) {
@@ -235,7 +260,7 @@ public class UserRepository extends DataHolder {
      * @param permission The permission to add.
      */
     public void addPermission(UUID uuid, String permission) {
-        plugin().permissionRepository().addPermission(permission);
+        permissionRepository.addPermission(permission);
 
         if (hasPermission(uuid, permission)) {
             return;

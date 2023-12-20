@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  * The repository for database operations on the permissions tables.
@@ -20,8 +22,8 @@ public class PermissionRepository extends DataHolder {
      *
      * @param plugin the plugin using this holder
      */
-    public PermissionRepository(PermissionPlugin plugin) {
-        super(plugin);
+    public PermissionRepository(Logger logger, DataSource source) {
+        super(logger, source);
     }
 
     /**

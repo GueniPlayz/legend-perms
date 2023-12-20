@@ -121,6 +121,8 @@ public class PermissionPlugin extends JavaPlugin {
         // Saving the default config so changes made will be applied
         saveDefaultConfig();
 
+        var logger = getLogger();
+
         // Creating a new instance of the database provider with the given credentials
         databaseProvider = DatabaseProvider.create(
             getConfig().getString("credentials.host"),
@@ -132,19 +134,21 @@ public class PermissionPlugin extends JavaPlugin {
 
         // Try to connect to the database
         if (!databaseProvider.connect()) {
-            getLogger().severe("Could not connect to the database.");
+            logger.severe("Could not connect to the database.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        // Execute the queries from the dbsetup.sql file
-        getLogger().info("Connected to the database.");
-        DatabaseSetup.executeQueries(this, databaseProvider.dataSource());
+        var dataSource = databaseProvider.dataSource();
 
-        userRepository = new UserRepository(this);
-        permissionRepository = new PermissionRepository(this);
-        groupRepository = new GroupPermissionRepository(this);
-        signRepository = new SignRepository(this);
+        // Execute the queries from the dbsetup.sql file
+        DatabaseSetup.executeQueries(logger, dataSource);
+
+        // Initialize the repositories
+        permissionRepository = new PermissionRepository(logger, dataSource);
+        groupRepository = new GroupPermissionRepository(logger, dataSource, groups);
+        userRepository = new UserRepository(logger, dataSource, groups);
+        signRepository = new SignRepository(logger, dataSource);
 
         // Load the groups from the database
         groups.addAll(groupRepository.groups());
