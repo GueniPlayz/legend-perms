@@ -19,6 +19,7 @@
 ### Gruppenbefehle:
 
 ```
+/perms groups - zeigt eine Auflistung aller Gruppen an
 /perms group <name> create - erstellt eine Gruppe 
 /perms group <name> delete - löscht eine Gruppe
 /perms group <name> add <permission> - fügt der Gruppe eine Berechtigung hinzu
@@ -39,6 +40,11 @@
 
 
 - Die Translations sind aktuell global geregelt. Man könnte noch kurz den Spielern seine Sprache speichern lassen, da dass aber nicht explizit in der Aufgabe genannt war, habe ich das einfach nur in der translations.yml einstellbar gemacht, sodass die Language global gilt.
+
+
+- Statistiken zur Programmierung (evtl. Interessant?)
+  ![Stats](https://i.imgur.com/JXmiGhI.png)
+
 
 
 - Von den zusätzlichen Aufgaben habe ich probiert alle abzudecken, damit mehr zu sehen ist, da mir so dass ganze Projekt sonst relativ blank vorkam. Ich hoffe, ich kann die Erwartungen zufriedenstellend erfüllen. :)
