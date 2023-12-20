@@ -85,6 +85,9 @@ public class SaveTask extends BukkitRunnable {
         plugin.groups().clear();
         plugin.groups().addAll(plugin.groupRepository().groups());
 
+        plugin.signs().clear();
+        plugin.signs().addAll(plugin.signRepository().allSigns());
+
         BukkitServer.PERMISSIONS.clear();
         BukkitServer.PERMISSIONS.addAll(plugin.permissionRepository().permissions());
     }
