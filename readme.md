@@ -46,5 +46,9 @@
   ![Stats](https://i.imgur.com/JXmiGhI.png)
 
 
+- Ich bitte davon, bei den Unit-Tests ein oder auch beide Augen zuzudrücken, da ich mit diesen noch nie gearbeitet habe aber probiert habe diese hier einzubauen. Um diese zu testen muss man noch eine am besten zweite Datenbank in der `DataSourceTest` Klasse angeben und die jeweiligen Login-Daten zur Datenbank abändern. Falls Fehler auftreten oder es irgendwelche Best-Practices gibt, bitte ich mir diese mitzuteilen. Ich habe mich bei folgenden Ressourcen informiert, falls das bei der Bewertung hilft :)
+   - https://www.jetbrains.com/help/idea/tests-in-ide.html
+   - https://www.youtube.com/watch?v=vZm0lHciFsQ
+
 
 - Von den zusätzlichen Aufgaben habe ich probiert alle abzudecken, damit mehr zu sehen ist, da mir so dass ganze Projekt sonst relativ blank vorkam. Ich hoffe, ich kann die Erwartungen zufriedenstellend erfüllen. :)
