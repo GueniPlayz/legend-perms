@@ -5,6 +5,7 @@ import fyi.tiko.perms.commands.sub.SubCommand;
 import fyi.tiko.perms.user.language.UserTranslator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +102,7 @@ public class PermissionCommand implements TabExecutor {
 
         // Check if the sender has permission to execute the sub command.
         if (!sender.hasPermission(subCommand.permission())) {
-            return List.of();
+            return Collections.emptyList();
         }
 
         // Execute the sub command with the given arguments excluding the first one so that the suggestion can start from 0.

@@ -7,6 +7,7 @@ import fyi.tiko.perms.group.repository.GroupPermissionRepository;
 import fyi.tiko.perms.user.language.UserTranslator;
 import fyi.tiko.perms.utils.BukkitServer;
 import fyi.tiko.perms.utils.LoadingActions;
+import java.util.Collections;
 import java.util.List;
 import org.bukkit.command.CommandSender;
 
@@ -236,9 +237,9 @@ public class GroupCommand extends SubCommand {
             case 3 -> switch (args[1].toLowerCase()) {
                 case "add", "remove" -> BukkitServer.PERMISSIONS.stream().toList();
                 case "default" -> List.of("true", "false");
-                default -> List.of();
+                default -> Collections.emptyList();
             };
-            default -> List.of();
+            default -> Collections.emptyList();
         };
     }
 }
