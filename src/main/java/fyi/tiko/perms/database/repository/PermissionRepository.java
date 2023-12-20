@@ -43,6 +43,11 @@ public class PermissionRepository extends DataHolder {
         return false;
     }
 
+    /**
+     * Gets all permissions from the database.
+     *
+     * @return a set of all permissions
+     */
     public Set<String> permissions() {
         var permissions = new HashSet<String>();
 
