@@ -37,13 +37,13 @@ public class UserAsyncChatListener implements Listener {
         var user = PermissionUser.of(player);
         var highestPermissionGroup = user.highestPermissionGroup();
 
-        var format = plugin.message("chat.format")
-            .replace("{prefix}", highestPermissionGroup.prefix())
-            .replace("{suffix}", highestPermissionGroup.suffix())
-            .replace("{player}", "%1$s")
-            .replace("{message}", "%2$s");
-
         if (highestPermissionGroup != null) {
+            var format = plugin.message("chat.format")
+                .replace("{prefix}", highestPermissionGroup.prefix())
+                .replace("{suffix}", highestPermissionGroup.suffix())
+                .replace("{player}", "%1$s")
+                .replace("{message}", "%2$s");
+
             event.setFormat(format);
         } else {
             event.setFormat("§7%s§8: §f%s");

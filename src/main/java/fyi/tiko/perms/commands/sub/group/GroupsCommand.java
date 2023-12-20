@@ -4,7 +4,6 @@ import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.commands.sub.SubCommand;
 import fyi.tiko.perms.group.PermissionGroup;
 import fyi.tiko.perms.group.repository.GroupPermissionRepository;
-import fyi.tiko.perms.user.language.UserTranslator;
 import java.util.Collections;
 import java.util.List;
 import org.bukkit.command.CommandSender;

@@ -2,7 +2,6 @@ package fyi.tiko.perms.commands;
 
 import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.commands.sub.SubCommand;
-import fyi.tiko.perms.user.language.UserTranslator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

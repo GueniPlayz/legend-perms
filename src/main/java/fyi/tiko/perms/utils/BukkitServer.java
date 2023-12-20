@@ -20,7 +20,7 @@ public class BukkitServer {
     /**
      * The version of the server in the NMS format.
      */
-    public static String SERVER_VERSION = Bukkit.getServer().getClass().getPackageName().split("\\.")[3];
+    public static final String SERVER_VERSION = Bukkit.getServer().getClass().getPackageName().split("\\.")[3];
 
     /**
      * Cached permissions

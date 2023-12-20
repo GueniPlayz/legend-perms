@@ -4,7 +4,6 @@ import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.commands.sub.SubCommand;
 import fyi.tiko.perms.group.PermissionGroup;
 import fyi.tiko.perms.group.repository.GroupPermissionRepository;
-import fyi.tiko.perms.user.language.UserTranslator;
 import fyi.tiko.perms.user.permission.PermissionUser;
 import fyi.tiko.perms.user.repository.UserRepository;
 import fyi.tiko.perms.utils.BukkitServer;
@@ -294,15 +293,6 @@ public class UserCommand extends SubCommand {
                 userRepository.byUuid(uuid),
                 uuid.toString(),
                 highestPermissionGroup != null ? highestPermissionGroup.name() : "§c×",
-
-                // wir speichern rein wie folgt:
-                // currentmillis + duration * 1000
-
-                // wir kriegen raus:
-                // (currentmillis + duration * 1000)
-
-                // nun um auf die restzeit zu kommen
-
                 String.join("§8, §f", groups.keySet().stream().map(group -> {
                     var until = groups.get(group) == -1 ? -1 : (groups.get(group) - System.currentTimeMillis()) / 1000;
                     return group.name() + " §8(§f" + (until == -1 ? "permanent" : Translators.secondsToFormat(until)) + "§8)";

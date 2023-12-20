@@ -2,7 +2,6 @@ package fyi.tiko.perms.commands.sub.sign;
 
 import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.commands.sub.SubCommand;
-import fyi.tiko.perms.user.language.UserTranslator;
 import java.util.Collections;
 import java.util.List;
 import org.bukkit.Material;
@@ -78,9 +77,9 @@ public class SignCommand extends SubCommand {
                     plugin.signRepository().deleteSign(permSign);
                     plugin.signs().remove(permSign);
 
-                    plugin.getServer().getScheduler().runTask(plugin, () -> {
-                        permSign.location().getWorld().getBlockAt(permSign.location()).setType(Material.AIR);
-                    });
+                    plugin.getServer().getScheduler().runTask(plugin,
+                        () -> permSign.location().getWorld().getBlockAt(permSign.location()).setType(Material.AIR)
+                    );
                     translator.sendTranslatedMessage(sender, "commands.sign.removed-sign");
                 }
 

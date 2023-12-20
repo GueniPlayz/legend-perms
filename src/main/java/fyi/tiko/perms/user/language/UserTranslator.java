@@ -1,6 +1,5 @@
 package fyi.tiko.perms.user.language;
 
-import fyi.tiko.perms.PermissionPlugin;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.bukkit.command.CommandSender;
