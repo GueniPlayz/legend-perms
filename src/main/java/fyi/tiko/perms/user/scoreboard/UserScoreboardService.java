@@ -115,7 +115,7 @@ public class UserScoreboardService {
         var prefix = highestGroup.prefix();
         var suffix = highestGroup.suffix();
 
-        var combinedPrefix = prefix == null
+        var combinedPrefix = prefix == null || prefix.isBlank()
             ? "§7"
             : prefix + " §8| ";
 

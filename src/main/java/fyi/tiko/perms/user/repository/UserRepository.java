@@ -188,7 +188,6 @@ public class UserRepository extends DataHolder {
         } catch (SQLException exception) {
             logger().log(Level.WARNING, "Failed to get groups of user", exception);
         }
-
         return Collections.emptyMap();
     }
 
@@ -203,6 +202,7 @@ public class UserRepository extends DataHolder {
         try (var conn = conn(); var stmt = conn.prepareStatement("SELECT group_name FROM player_groups WHERE uuid=? AND group_name=?")) {
             stmt.setString(1, uuid.toString());
             stmt.setString(2, group);
+
             var resultSet = stmt.executeQuery();
             return resultSet.next();
         } catch (SQLException exception) {

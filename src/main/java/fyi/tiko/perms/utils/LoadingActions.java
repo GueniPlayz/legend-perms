@@ -4,6 +4,7 @@ import fyi.tiko.perms.PermissionPlugin;
 import fyi.tiko.perms.group.PermissionGroup;
 import fyi.tiko.perms.user.UserPermissibleBase;
 import fyi.tiko.perms.user.permission.PermissionUser;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import org.bukkit.block.Sign;
@@ -79,7 +80,10 @@ public class LoadingActions {
      * @param player The player to update the signs for.
      */
     private static void updateSigns(PermissionPlugin plugin, Player player) {
-        plugin.signs().forEach(permissionSign -> {
+        var copiedSigns = new HashSet<>(plugin.signs());
+
+        // To avoid concurrent modification exceptions we copy the signs and iterate over the copy
+        copiedSigns.forEach(permissionSign -> {
             var bukkitSign = permissionSign.location().getWorld().getBlockAt(permissionSign.location()).getState();
 
             if (!(bukkitSign instanceof Sign sign)) {

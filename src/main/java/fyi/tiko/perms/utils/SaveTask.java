@@ -70,15 +70,16 @@ public class SaveTask extends BukkitRunnable {
      * Updates the cache with the data from the database and also removes expired groups.
      */
     public void updateCache() {
+        var userRepository = plugin.userRepository();
+
         plugin.getServer().getOnlinePlayers().forEach(player -> {
             PermissionUser.delete(player.getUniqueId());
 
             var user = PermissionUser.of(player);
             user.player(player);
 
-            plugin.userRepository().groups(player.getUniqueId()).forEach(user::addGroup);
-
-            plugin.userRepository().permissions(player.getUniqueId()).forEach(user::addPermission);
+            userRepository.groups(player.getUniqueId()).forEach(user::addGroup);
+            userRepository.permissions(player.getUniqueId()).forEach(user::addPermission);
             user.loaded(new AtomicBoolean(true));
         });
 

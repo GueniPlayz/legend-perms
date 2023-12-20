@@ -35,17 +35,17 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author tiko
  */
 public class PermissionPlugin extends JavaPlugin {
-    private UserTranslator userTranslator;
     private final SaveTask saveTask = new SaveTask(this);
     private final Set<PermissionSign> signs = new HashSet<>();
     private final Set<PermissionGroup> groups = new HashSet<>();
-    private TranslationConfig messageConfig;
     private DatabaseProvider databaseProvider;
     private UserRepository userRepository;
-    private SignRepository signRepository;
+    private UserTranslator userTranslator;
+    private TranslationConfig messageConfig;
     private PermissionRepository permissionRepository;
-    private GroupPermissionRepository groupRepository;
+    private SignRepository signRepository;
     private UserScoreboardService userScoreboardService;
+    private GroupPermissionRepository groupRepository;
 
     @Override
     public void onEnable() {
